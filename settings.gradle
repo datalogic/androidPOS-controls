@@ -1,0 +1,3 @@
+include ':control'
+include ':app'
+rootProject.name = "APOSControl"

@@ -1,8 +1,11 @@
 plugins {
     id 'com.android.library'
+    id 'maven-publish'
 }
-apply plugin: 'com.github.dcendents.android-maven'
+//apply plugin: 'com.github.dcendents.android-maven'
 group='com.github.datalogic'
+
+def libVersion = "0.2-alpha"
 
 android {
     compileSdkVersion 30
@@ -34,8 +37,8 @@ dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.2.1'
-    implementation 'com.github.datalogic:androidpos-commons:0.1-alpha'
-    implementation 'com.github.datalogic:androidpos-config:0.1-alpha'
+    implementation 'com.github.datalogic:androidpos-commons:v0.2-alpha'
+    implementation 'com.github.datalogic:androidpos-config:v0.2-alpha'
 
     testImplementation 'junit:junit:4.+'
     testImplementation 'com.google.truth:truth:1.1.2'
@@ -54,37 +57,37 @@ task sourcesJar(type: Jar) {
     archiveClassifier.set("sources")
 }
 
-//publishing {
+publishing {
 //    def homePath = System.properties['user.home']
-//    publications {
-//        release(MavenPublication) {
-//            groupId 'com.datalogic.dlapos'
-//            //You can either define these here or get them from project conf elsewhere
-//            artifactId 'control'
-//            version '0.1-alpha'
-//            artifact("$buildDir/outputs/aar/control-release.aar")
-//            artifact sourcesJar
-//            //aar artifact you want to publish
-//
-//            //generate pom nodes for dependencies
-//            pom.withXml {
-//                def dependenciesNode = asNode().appendNode('dependencies')
-//                configurations.implementation.allDependencies.each { dependency ->
-//                    def dependencyNode = dependenciesNode.appendNode('dependency')
-//                    dependencyNode.appendNode('groupId', dependency.group)
-//                    dependencyNode.appendNode('artifactId', dependency.name)
-//                    dependencyNode.appendNode('version', dependency.version)
-//                    dependencyNode.appendNode('scope', 'implementation')
-//                }
-//            }
-//        }
-//    }
-//
+    publications {
+        release(MavenPublication) {
+            groupId group
+            //You can either define these here or get them from project conf elsewhere
+            artifactId 'androidpos-controls'
+            version libVersion
+            artifact("$buildDir/outputs/aar/aposcontrols-release.aar")
+            artifact sourcesJar
+            //aar artifact you want to publish
+
+            //generate pom nodes for dependencies
+            pom.withXml {
+                def dependenciesNode = asNode().appendNode('dependencies')
+                configurations.implementation.allDependencies.each { dependency ->
+                    def dependencyNode = dependenciesNode.appendNode('dependency')
+                    dependencyNode.appendNode('groupId', dependency.group)
+                    dependencyNode.appendNode('artifactId', dependency.name)
+                    dependencyNode.appendNode('version', dependency.version)
+                    dependencyNode.appendNode('scope', 'implementation')
+                }
+            }
+        }
+    }
+
 //    repositories {
 //        maven { url "$homePath/AndroidRepo" }
 //    }
-//}
-
-artifacts {
-    archives sourcesJar
 }
+
+//artifacts {
+//    archives sourcesJar
+//}

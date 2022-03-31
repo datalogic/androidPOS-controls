@@ -259,7 +259,6 @@ abstract class APosBaseControl implements BaseControl {
                 _isOpen = true;
             }, ExceptionFactory.createUncaughtException());
         } catch (APosException e) {
-            //TODO: do everything despite failures
             _service.close();
             _connector.disconnect();
             _connector = null;
